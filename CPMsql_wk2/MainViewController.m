@@ -13,9 +13,13 @@
 @interface MainViewController ()
 {
     int selected;
+    int filterSelected;
     const char *UTF8dbpath;
     UIActivityIndicatorView *spinner;
     UIAlertView* load_message;
+    int countLocalTable;
+    int viewAppeared;
+    int parseCount;
 }
 @end
 
@@ -27,8 +31,9 @@
 - (void)viewDidLoad{
     [Parse setApplicationId:@"KOHAaQRdCYXrO1RNBYF3iTSOoxrgTfXRsFUpMdhN"
                   clientKey:@"P3BgADyELTJe2ZyJFUs5cqabAagdVtg517VG2YHf"];
-    
+    viewAppeared = 0;
     weaponsArray = [[NSMutableArray alloc] init];
+    
     typesArray = [[NSMutableArray alloc] init];
     [typesArray addObject:@"ALL TYPES"];
     [typesArray addObject:@"Sword"];
@@ -36,8 +41,70 @@
     [typesArray addObject:@"Blunt"];
     [typesArray addObject:@"Missile"];
     
+    filterArray = [[NSMutableArray alloc] init];
+    [filterArray addObject:@"No Filter"];
+    [filterArray addObject:@"by ID"];
+    [filterArray addObject:@"by Alpha"];
+    [filterArray addObject:@"by Damage"];
+    
     [self buildDB];
     [super viewDidLoad];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    NSLog(@" *** VIEW APPEARED***");
+    if (viewAppeared == 0) {
+        NSLog(@" *** VIEW APPEARED*** %d", viewAppeared);
+        viewAppeared++;
+    }else{
+        NSLog(@" *** VIEW APPEARED*** %d", viewAppeared);
+        viewAppeared++;
+        
+        PFQuery *query = [PFQuery queryWithClassName:@"weaponsTablePARSE"];
+        [query whereKeyExists:@"wName"];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                // The find succeeded.
+                NSLog(@"Parse has %d items: Local has %d", objects.count, countLocalTable);
+                parseCount = objects.count;
+                [self DB_EqualCheck];
+            } else {
+                // Log details of the failure
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            } // END if error            
+        }];
+        
+        
+
+        
+        
+    }// end else appeared
+}
+
+-(void)DB_EqualCheck{
+    if (countLocalTable == parseCount) {
+        NSLog(@"Scooby Dooby Doo, The counts are Equal");
+        
+    }else{
+        NSLog(@"Databases NOT Equal");
+        updateBtn.hidden = !updateBtn.hidden;
+        //Update Button ADDED
+//TODO     // Lets put a button in the main view for a forced Update that is only activated when an update is needed
+        
+        //            UTF8dbpath = [dbPath UTF8String];
+        //            if (sqlite3_open(UTF8dbpath, &dbcontext) == SQLITE_OK){
+        //                const char dropIt = "DROP TABLE IF EXISTS weaponsDB.sqlite.weapons";
+        //                sqlite3_stmt *statement;
+        //                if( sqlite3_prepare_v2(dbcontext, dropIt, -1, &statement, NULL) == SQLITE_OK ){
+        //                    sqlite3_finalize(statement);
+        //                    NSLog(@"Table Dropped");
+        //                    [self buildDB];
+        //                }else{
+        //                    NSLog(@"Table Drop FAILED");
+        //                }
+        //                sqlite3_close(dbcontext);
+        //            }
+    } //END if equal
 }
 
 - (void)didReceiveMemoryWarning{
@@ -75,19 +142,19 @@
             }
             const char* countStmnt = "SELECT * FROM weapons";
             sqlite3_stmt *statement;
-            int count = 0;
+            countLocalTable = 0;
             if( sqlite3_prepare_v2(dbcontext, countStmnt, -1, &statement, NULL) == SQLITE_OK )
             {
                 //Loop through all the returned rows
                 while( sqlite3_step(statement) == SQLITE_ROW )
                 {
-                    count++;
+                    countLocalTable++;
                     
                 }
-                NSLog(@"row count %d", count);
-                if (count == 0) {
+                NSLog(@"row count %d", countLocalTable);
+                if (countLocalTable == 0) {
                     [self loadingSpinner];
-                    //[self insertDataintoDB];  ////////////////  ADD DATA INTO DB
+                    ////////////////  ADD DATA INTO DB
                     NSLog(@"calling for data insert");
                     PFQuery *query = [PFQuery queryWithClassName:@"weaponsTablePARSE"];
                     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -146,7 +213,8 @@
                             // Log details of the failure
                             NSLog(@"Error: %@ %@", error, [error userInfo]);
                         }
-                        
+                        [spinner stopAnimating];
+                        [load_message dismissWithClickedButtonIndex:0 animated:TRUE];
                     }];
                     
                 }else{
@@ -169,59 +237,9 @@
     
 }
 
-//-(void)buildWeaponWithName :(NSString*) name withID :(int) wepID ofType: (int)type handsUsed :(int) hands doesDamage: (int) damage inStock :(int) quantity withParseID: (NSString*) parseID{
-//    static sqlite3_stmt *insertStmt = nil;
-//    insertStmt = "INSERT INTO weapons (name, weaponID, type, hands, damage, quantity, parseID) VALUES (?,?,?,?,?,?, ?)";
-//    NSString * _name = name;
-//    NSString * weapon = @"INSERT INTO weapons (name, weaponID, type, hands, damage, quantity, parseID) VALUES (\"%@\", %d, %d, %d, %d, %d, %@)",  name, [NSNumber numberWithInt: wepID], type, hands, damage, quantity, parseID;
-//}
-//
-//
-//-(void)insertDataintoDB{
-//   NSLog(@"inserting data method");
-//
-//     const char *sql_stmt = "INSERT INTO weapons ( weaponID , name , type , hands , damage , quantity , parseID ) VALUES ( ?, ?, ?, ?, ?, ?, ?,)";
-//    if(sqlite3_prepare_v2(dbcontext, insertStmt, -1, &compiledStatement, NULL) == SQLITE_OK)
-//    {
-//        sqlite3_bind_text(compiledStatement, 1, [productName UTF8String], -1, SQLITE_TRANSIENT);
-//        sqlite3_bind_text(compiledStatement, 2, [regionName UTF8String], -1, SQLITE_TRANSIENT);
-//        sqlite3_bind_text(compiledStatement, 3, [yearName UTF8String], -1, SQLITE_TRANSIENT);
-//    }
-//
-//  //NSString * weapon = @"INSERT INTO weapons (name, weaponID, type, hands, damage, quantity, parseID) VALUES (?,?,?,?,?,?,?)",  name;
-//  //  const char *weapon =  "INSERT INTO weapons (name, type, hands, damage, quantity, parseID) VALUES ('?', 1, 1, 25)";
-////    const char *inSword2 =  "INSERT INTO weapons (name, type, hands, damage) VALUES ('Short Sword', 1, 1, 25)";
-////    const char *inStar2 =      "INSERT INTO weapons (name, type, hands, damage) VALUES ('Pill Flail', 3, 2, 150)";
-////    const char *inAxe2 =      "INSERT INTO weapons (name, type, hands, damage) VALUES ('Great Axe', 2, 2, 145)";
-////    const char *inBow2 =     "INSERT INTO weapons (name, type, hands, damage) VALUES ('Longbow', 4, 2, 110)";
-////    const char *inHatchet = "INSERT INTO weapons (name, type, hands, damage) VALUES ('Hatchet', 2, 1, 30)";
-//
-////    [self dbAutoFill:inSword2];
-////    [self dbAutoFill:inStar2];
-////    [self dbAutoFill:inAxe2];
-////    [self dbAutoFill:inBow2];
-////    [self dbAutoFill:inHatchet];
-//
-//
-//    PFQuery *query = [PFQuery queryWithClassName:@"weaponsTablePARSE"];
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        if (!error) {
-//
-//            NSLog(@"Successfully retrieved %d objects.", objects.count);
-//
-//            for (int i = 0; i <= [objects count ] ; i ++) {
-//                NSLog(@"Object %@", [objects valueForKey:@"wName"]);
-//            }
-//
-//        } else {
-//            // Log details of the failure
-//            NSLog(@"Error: %@ %@", error, [error userInfo]);
-//        }
-//        [spinner stopAnimating];
-//        [load_message dismissWithClickedButtonIndex:0 animated:TRUE];
-//
-//    }];
-//}
+- (IBAction)Update:(id)sender {
+  
+}
 
 -(void)loadingSpinner{
     
@@ -259,9 +277,11 @@
     FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideViewController" bundle:nil];
     
     if (!selected) {
+        controller.filterSelected = 0;
         controller.typeSelected = 0;
         controller.UTF8dbpath = UTF8dbpath;
     }else{
+        controller.filterSelected = filterSelected;
         controller.typeSelected = selected;
         controller.UTF8dbpath = UTF8dbpath;
     }
@@ -274,21 +294,35 @@
 
 ///////////// PICKER VIEW STUFF //////////////////////
 - (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    if (component == 0) {
+        return [typesArray objectAtIndex:row];
+    }else{
+        return [filterArray objectAtIndex:row];
+    }
     
-    return [typesArray objectAtIndex:row];
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-    return 1;
+    return 2;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    return [typesArray count];
+    if (component == 0) {
+        return [typesArray count];
+    }else{
+        return [filterArray count];
+    }
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    NSLog(@"SELECTED: %d", row);
-    selected = row;
+    if (component == 0) {
+        NSLog(@"SELECTED: %d", row);
+        selected = row;
+    }else{
+        filterSelected = row;
+        NSLog(@"SELECTED Filter: %d", row);
+    }
+   
     
 }
 ///////////////////////////////////////////////////////////////////////

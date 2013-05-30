@@ -15,15 +15,18 @@
 @interface MainViewController : UIViewController <FlipsideViewControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 {
     NSMutableArray *weaponsArray;
+    NSMutableArray *filterArray;
      NSMutableArray *typesArray;
     NSString *dbPath;
     sqlite3 *dbcontext;
+    __weak IBOutlet UIButton *updateBtn;
     __weak IBOutlet UIPickerView *pickerView;
 }
 
 @property (weak, nonatomic) IBOutlet UIButton *goBtn;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 - (IBAction)AddWeapon:(id)sender;
+- (IBAction)Update:(id)sender;
 
 
 //-(void)insertDataintoDB;

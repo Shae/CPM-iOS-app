@@ -33,10 +33,11 @@
 {
     weaponArray = [[NSMutableArray alloc] init];
     NSLog(@"selection received: %d", _typeSelected);
+    NSLog(@"filter received: %d", _filterSelected);
     [super viewDidLoad];
     [[self tableView]setDelegate:self];
     [[self tableView]setDataSource:self];
-    [self getDBdata:_typeSelected];
+    [self getDBdata:_typeSelected filteredBy:_filterSelected];
 }
 
 
@@ -53,7 +54,7 @@
     [self.delegate flipsideViewControllerDidFinish:self];
 }
 
--(void)getDBdata:(int)selected
+-(void)getDBdata:(int)selected filteredBy: (int)filter
 {
     NSLog(@"PULLING DATA");
         NSArray *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, TRUE);
@@ -67,24 +68,77 @@
             // the DATABASE was opened successfully
             char *errMsg;
             const char *sql_stmt;
+            int filterSet = ((_typeSelected +10) * (_filterSelected +1));
     
-                switch (_typeSelected) {
-                    case 0:
+                switch (filterSet) {
+                    case 10:
                         sql_stmt = "SELECT * FROM weapons";
                         break;
-                    case 1:
+                    case 20:
+                        sql_stmt = "SELECT * FROM weapons  ORDER BY weaponID";
+                        break;
+                    case 30:
+                        sql_stmt = "SELECT * FROM weapons  ORDER BY name";
+                        break;
+                    case 40:
+                        sql_stmt = "SELECT * FROM weapons  ORDER BY damage";
+                        break;
+                        
+                        
+                    case 11:
                         sql_stmt = "SELECT * FROM weapons WHERE type=1";
                         break;
-                    case 2:
+                    case 22:
+                        sql_stmt = "SELECT * FROM weapons WHERE type=1 ORDER BY weaponID";
+                        break;
+                    case 33:
+                        sql_stmt = "SELECT * FROM weapons WHERE type=1 ORDER BY name";
+                        break;
+                    case 44:
+                        sql_stmt = "SELECT * FROM weapons WHERE type=1 ORDER BY damage";
+                    break;
+                
+                        
+                    case 12:
                         sql_stmt = "SELECT * FROM weapons WHERE type=2";
                         break;
-                    case 3:
-                        sql_stmt = "SELECT * FROM weapons WHERE type=3";
+                    case 24:
+                        sql_stmt = "SELECT * FROM weapons WHERE type=2 ORDER BY weaponID";
                         break;
-                    case 4:
-                        sql_stmt = "SELECT * FROM weapons WHERE type= 4";
+                    case 36:
+                        sql_stmt = "SELECT * FROM weapons WHERE type=2 ORDER BY name";
                         break;
-            }
+                    case 48:
+                        sql_stmt = "SELECT * FROM weapons WHERE type=2 ORDER BY damage";
+                        break;
+                        
+                    case 13:
+                        sql_stmt = "SELECT * FROM weapons";
+                        break;
+                    case 26:
+                        sql_stmt = "SELECT * FROM weapons WHERE type=3 ORDER BY weaponID";
+                        break;
+                    case 39:
+                        sql_stmt = "SELECT * FROM weapons WHERE type=3 ORDER BY name";
+                        break;
+                    case 52:
+                        sql_stmt = "SELECT * FROM weapons WHERE type=3 ORDER BY damage";
+                        break;
+                        
+                    case 14:
+                        sql_stmt = "SELECT * FROM weapons";
+                        break;
+                    case 28:
+                        sql_stmt = "SELECT * FROM weapons WHERE type=4 ORDER BY weaponID";
+                        break;
+                    case 42:
+                        sql_stmt = "SELECT * FROM weapons WHERE type=4 ORDER BY name";
+                        break;
+                    case 56:
+                        sql_stmt = "SELECT * FROM weapons WHERE type=4 ORDER BY damage";
+                        break;
+                        
+                }
             
             if (sqlite3_exec(dbcontext, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
             {

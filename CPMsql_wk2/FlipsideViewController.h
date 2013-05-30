@@ -24,6 +24,7 @@
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) int typeSelected;
+@property (nonatomic) int filterSelected;
 @property (nonatomic)  const char UTF8dbpath;
 @property (weak, nonatomic) id <FlipsideViewControllerDelegate> delegate;
 
