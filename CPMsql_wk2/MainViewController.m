@@ -170,6 +170,7 @@
 
 -(void)populate{
     [self loadingSpinner];
+    [self deleteDbRows];
     ////////////////  ADD DATA INTO DB
     NSLog(@"Calling for table Population");
     PFQuery *query = [PFQuery queryWithClassName:@"weaponsTablePARSE"];
