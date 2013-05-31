@@ -7,6 +7,7 @@
 //
 
 #import "FlipsideViewController.h"
+#import "DeleteWeapon.h"
 #import <sqlite3.h>
 #import "Weapon.h"
 #import <CoreData/CoreData.h>
@@ -24,19 +25,12 @@
 }
 
 @property (weak, nonatomic) IBOutlet UIButton *goBtn;
+@property (nonatomic) int localDBCount;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 - (IBAction)AddWeapon:(id)sender;
 - (IBAction)Update:(id)sender;
-
-
-//-(void)insertDataintoDB;
 - (IBAction)showInfo:(id)sender;
-//-(void)buildWeaponWithName :(NSString*) name
-//                 withID :(int) wepID
-//                 ofType: (int)type
-//                 handsUsed :(int) hands
-//                 doesDamage: (int) damage
-//                 inStock :(int) quantity
-//                 withParseID: (NSString*) parseID;
+- (IBAction)DeleteWeapon:(id)sender;
+
 
 @end

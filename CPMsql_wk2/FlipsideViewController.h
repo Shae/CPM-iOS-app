@@ -23,6 +23,7 @@
         sqlite3 *dbcontext;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic) int localDBCount;
 @property (nonatomic) int typeSelected;
 @property (nonatomic) int filterSelected;
 @property (nonatomic)  const char UTF8dbpath;

@@ -21,6 +21,8 @@
 		BFA3FA4B1752BA7E00D2ECAC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFA3FA4A1752BA7E00D2ECAC /* SystemConfiguration.framework */; };
 		BFA3FA4F1752E54600D2ECAC /* AddWeapon.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA3FA4D1752E54600D2ECAC /* AddWeapon.m */; };
 		BFA3FA501752E54600D2ECAC /* AddWeapon.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFA3FA4E1752E54600D2ECAC /* AddWeapon.xib */; };
+		BFA3FA541758277000D2ECAC /* DeleteWeapon.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA3FA521758277000D2ECAC /* DeleteWeapon.m */; };
+		BFA3FA551758277000D2ECAC /* DeleteWeapon.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFA3FA531758277000D2ECAC /* DeleteWeapon.xib */; };
 		BFAE713717452E38006A25D9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFAE713617452E38006A25D9 /* UIKit.framework */; };
 		BFAE713917452E38006A25D9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFAE713817452E38006A25D9 /* Foundation.framework */; };
 		BFAE713B17452E38006A25D9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFAE713A17452E38006A25D9 /* CoreGraphics.framework */; };
@@ -59,6 +61,9 @@
 		BFA3FA4C1752E54600D2ECAC /* AddWeapon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddWeapon.h; sourceTree = "<group>"; };
 		BFA3FA4D1752E54600D2ECAC /* AddWeapon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWeapon.m; sourceTree = "<group>"; };
 		BFA3FA4E1752E54600D2ECAC /* AddWeapon.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddWeapon.xib; sourceTree = "<group>"; };
+		BFA3FA511758277000D2ECAC /* DeleteWeapon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteWeapon.h; sourceTree = "<group>"; };
+		BFA3FA521758277000D2ECAC /* DeleteWeapon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteWeapon.m; sourceTree = "<group>"; };
+		BFA3FA531758277000D2ECAC /* DeleteWeapon.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeleteWeapon.xib; sourceTree = "<group>"; };
 		BFAE713217452E38006A25D9 /* CPMsql_wk2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CPMsql_wk2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFAE713617452E38006A25D9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BFAE713817452E38006A25D9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -171,6 +176,9 @@
 				BFA3FA4C1752E54600D2ECAC /* AddWeapon.h */,
 				BFA3FA4D1752E54600D2ECAC /* AddWeapon.m */,
 				BFAE715917452E38006A25D9 /* MainViewController.xib */,
+				BFA3FA511758277000D2ECAC /* DeleteWeapon.h */,
+				BFA3FA521758277000D2ECAC /* DeleteWeapon.m */,
+				BFA3FA531758277000D2ECAC /* DeleteWeapon.xib */,
 				BFAE715C17452E38006A25D9 /* FlipsideViewController.xib */,
 				BFAE716417452EDF006A25D9 /* cell.xib */,
 				BFA3FA3517512D0E00D2ECAC /* InfoViewController.xib */,
@@ -255,6 +263,7 @@
 				BFAE716517452EDF006A25D9 /* cell.xib in Resources */,
 				BFA3FA3717512D0E00D2ECAC /* InfoViewController.xib in Resources */,
 				BFA3FA501752E54600D2ECAC /* AddWeapon.xib in Resources */,
+				BFA3FA551758277000D2ECAC /* DeleteWeapon.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +283,7 @@
 				BFAE717317459384006A25D9 /* customCell.m in Sources */,
 				BFA3FA3617512D0E00D2ECAC /* InfoViewController.m in Sources */,
 				BFA3FA4F1752E54600D2ECAC /* AddWeapon.m in Sources */,
+				BFA3FA541758277000D2ECAC /* DeleteWeapon.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
