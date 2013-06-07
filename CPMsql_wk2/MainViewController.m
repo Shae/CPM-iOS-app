@@ -134,7 +134,7 @@
         if (viewAppeared == 0) {
             
             NSLog(@"NEEDS SYNC - AUTO");
-            [self deleteDbRows];
+
             [self buildDB];
         }else{
             updateBtn.hidden = !updateBtn.hidden;
@@ -170,7 +170,8 @@
 
 -(void)populate{
     [self loadingSpinner];
-    [self deleteDbRows];
+
+
     ////////////////  ADD DATA INTO DB
     NSLog(@"Calling for table Population");
     PFQuery *query = [PFQuery queryWithClassName:@"weaponsTablePARSE"];
@@ -264,11 +265,14 @@
 - (IBAction)Update:(id)sender {
     NSLog(@"UPDATING DATA");
     [self deleteDbRows];
+    [weaponsArray removeAllObjects];        ////////////////////////////////////////////////////////////////////////////
+
     [self populate];
     updateBtn.hidden = TRUE;
 }
 
 -(void)deleteDbRows{
+        
     UTF8dbpath = [dbPath UTF8String];
     if (sqlite3_open(UTF8dbpath, &dbcontext) == SQLITE_OK){
         NSLog(@"Deleting all rows");
@@ -281,6 +285,7 @@
             while(sqlite3_step(stmnt) == SQLITE_ROW) {
                 // Read the data from the result row
                 NSLog(@"deleting row");
+
             }
              sqlite3_finalize(stmnt);
             NSLog(@"ROWs Dropped");
